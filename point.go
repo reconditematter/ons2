@@ -64,3 +64,16 @@ func (p Point) Sep(q Point) float64 {
 	}
 	return math.NaN()
 }
+
+// Random -- returns a uniform pseudo-random point on the unit sphere S².
+// This function is safe for concurrent use by multiple goroutines.
+func Random() Point {
+	const ε = 1.0 / (1 << 52)
+	x, y, z := mym.N01(), mym.N01(), mym.N01()
+	r := math.Hypot(math.Hypot(x, y), z)
+	for r < ε {
+		x, y, z = mym.N01(), mym.N01(), mym.N01()
+		r = math.Hypot(math.Hypot(x, y), z)
+	}
+	return Point{[3]float64{x / r, y / r, z / r}}
+}

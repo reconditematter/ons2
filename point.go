@@ -77,3 +77,28 @@ func Random() Point {
 	}
 	return Point{[3]float64{x / r, y / r, z / r}}
 }
+
+// Fibonacci -- generates a quasi-uniform sequence of 2n+1 Fibonacci points on the unit sphere S².
+//
+// Reference: Swinbank R., Purser R.J., Fibonacci grids: A novel approach to global modelling,
+// Q.J.R. Meteorol. Soc., vol.132, no.619, pp.1769-1793 (2006).
+//
+// DOI: https://doi.org/10.1256/qj.05.227
+func Fibonacci(n int) []Point {
+	if n < 0 {
+		n = 0
+	}
+	n21 := float64(n*2 + 1)
+	p := make([]Point, 2*n+1)
+	for i := -n; i <= n; i++ {
+		fi := float64(i)
+		sinφ := 2 * fi / n21
+		cosφ := math.Sqrt((1 - sinφ) * (1 + sinφ))
+		λ := (2 * math.Pi / math.Phi) * fi
+		sinλ, cosλ := math.Sincos(λ)
+		//
+		x, y, z := cosφ*cosλ, cosφ*sinλ, sinφ
+		p[i+n] = Point{[3]float64{x, y, z}}
+	}
+	return p
+}

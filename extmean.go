@@ -52,30 +52,19 @@ func ExtMeanBoot(points []Point, seed int64) (mean Point, c95, c99 float64) {
 	// compute `B` extrinsic means using bootstrap method
 	n := len(points)
 	tpoints := make([]Point, n)
-	bmeans := make([]locsep, B)
+	bseps := make([]float64, B)
 	for b := 0; b < B; b++ {
 		for k := range tpoints {
 			tpoints[k] = points[rng.Intn(n)]
 		}
 		tmean := ExtMean(tpoints)
-		bmeans[b] = locsep{loc: tmean, sep: mean.Sep(tmean)}
+		bseps[b] = mean.Sep(tmean)
 	}
 	//
 	// compute the 95% and 99% confidence cones
-	sort.Sort(locseps(bmeans))
-	c95 = bmeans[B95-1].sep * (180 / math.Pi)
-	c99 = bmeans[B99-1].sep * (180 / math.Pi)
+	sort.Float64s(bseps)
+	c95 = bseps[B95-1] * (180 / math.Pi)
+	c99 = bseps[B99-1] * (180 / math.Pi)
 	//
 	return
 }
-
-type locsep struct {
-	loc Point
-	sep float64
-}
-
-type locseps []locsep
-
-func (s locseps) Len() int           { return len(s) }
-func (s locseps) Less(i, j int) bool { return s[i].sep < s[j].sep }
-func (s locseps) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }

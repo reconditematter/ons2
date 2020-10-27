@@ -39,7 +39,7 @@ func ExtMedian(points []Point) Point {
 //      c99 -- ½ of the vertex angle (degrees) for the 99% confidence cone
 func ExtMedianBoot(points []Point, seed int64) (median Point, c95, c99 float64) {
 	const (
-		B   = 2000
+		B   = 5000
 		B95 = B * 95 / 100
 		B99 = B * 99 / 100
 	)

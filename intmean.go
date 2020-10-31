@@ -21,15 +21,14 @@ import (
 // of iterations required to converge to the solution.
 func IntMean(points []Point) (Point, int) {
 	n := len(points)
-	xs, ys := make([]float64, n), make([]float64, n)
+	xyz := make([][3]float64, n)
 	cen := ExtMean(points)
 	for iter := 1; iter <= 1000; iter++ {
 		for i, p := range points {
-			xs[i], ys[i] = azeq(cen, p)
+			xyz[i][0], xyz[i][1] = azeq(cen, p)
 		}
-		xmean := mym.AccuSum(n, func(i int) float64 { return xs[i] }) / float64(n)
-		ymean := mym.AccuSum(n, func(i int) float64 { return ys[i] }) / float64(n)
-		newcen := azeqinv(cen, xmean, ymean)
+		xyzmean := mym.Vmean3(xyz)
+		newcen := azeqinv(cen, xyzmean[0], xyzmean[1])
 		if cen.Sep(newcen) <= mym.Epsilon {
 			return newcen, iter
 		}

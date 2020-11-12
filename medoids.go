@@ -9,7 +9,7 @@ import (
 	"math"
 )
 
-// Medoids -- finds two medoids of `points`.
+// Medoids -- finds two medoids of `points` on the unit sphere S².
 // The first medoid point `i1` minimizes the sum of distances from points[i1] to all given points.
 // The second medoid point `i2` minimizes the sum of squared distances from points[i2] to all given points.
 func Medoids(points []Point) (i1, i2 int) {

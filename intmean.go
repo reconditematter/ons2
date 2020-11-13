@@ -15,7 +15,7 @@ import (
 // This computation starts with the extrinsic mean (see `ExtMean`) as
 // an initial approximation. The following iterations refine the solution
 // by minimizing the sum of squared distances from the current iteration
-// mean to all other points.
+// mean to all given points.
 //
 // This function returns the computed intrinsic mean and the number
 // of iterations required to converge to the solution.

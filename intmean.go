@@ -40,7 +40,7 @@ func IntMean(points []Point) (Point, int) {
 		}
 		xyzmean := mym.Vmean3(xyz)
 		newcen := azeqinv(cen, xyzmean[0], xyzmean[1])
-		if cen.Sep(newcen) <= mym.Epsilon {
+		if cen.Sep(newcen) <= mym.Epsilon*math.Pi*2 {
 			return newcen, iter
 		}
 		cen = newcen

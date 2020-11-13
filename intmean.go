@@ -21,8 +21,19 @@ import (
 // of iterations required to converge to the solution.
 func IntMean(points []Point) (Point, int) {
 	n := len(points)
+	if n == 1 {
+		return points[0], 1
+	}
 	xyz := make([][3]float64, n)
-	cen := ExtMean(points)
+	//
+	var cen Point
+	if n <= 10000 {
+		_, i2 := Medoids(points)
+		cen = points[i2]
+	} else {
+		cen = ExtMean(points)
+	}
+	//
 	for iter := 1; iter <= 1000; iter++ {
 		for i, p := range points {
 			xyz[i][0], xyz[i][1] = azeq(cen, p)

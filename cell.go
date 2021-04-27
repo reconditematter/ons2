@@ -13,6 +13,12 @@ import (
 // in the geographic grid cell [lat,lat+1]x[lon,lon+1].
 // This function causes a runtime panic when lat∉{-90,...,89} or lon∉{-180,...,179}.
 func CellRnd1x1(lat, lon, n int) []Point {
+	if !(-90 <= lat && lat < 90) {
+		panic("ons2.CellRnd1x1: lat not in [-90,89]")
+	}
+	if !(-180 <= lon && lon < 180) {
+		panic("ons2.CellRnd1x1: lon not in [-180,179]")
+	}
 	ps := make([]Point, n)
 	latmin, latmax := float64(lat), float64(lat+1)
 	lonmin, lonmax := float64(lon), float64(lon+1)

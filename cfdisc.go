@@ -15,6 +15,7 @@ import (
 //
 // DOI: https://doi.org/10.1137/S1064827595281344
 func Discrepancy(points []Point) float64 {
+	const sqrtpi = 1.77245385090551602729816748334114518279754945612239
 	n := len(points)
 	ln := func(i, j int) float64 {
 		u := points[i].C()
@@ -34,5 +35,5 @@ func Discrepancy(points []Point) float64 {
 			D += 1 - 2*ln(i, j)
 		}
 	}
-	return (1 / (2 * math.Sqrt(math.Pi) * float64(n))) * math.Sqrt(D)
+	return (1 / (2 * sqrtpi * float64(n))) * math.Sqrt(D)
 }
